@@ -66,7 +66,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     yum install git -y
     git clone https://github.com/aberrational-analyser/kongpipe
-    cd kongpipe
-    faketravis.sh
+    echo "Git clone completed.  Attempting cd"
+    cd /home/vagrant/kongpipe
+    echo "pwd is $(pwd)  Attempting to launch faketravis.sh"
+    ./faketravis.sh
   SHELL
 end
