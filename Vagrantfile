@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/aberrational-analyser/kongpipe
     echo "Git clone completed.  Attempting cd"
     cd /home/vagrant/kongpipe
-    echo "pwd is $(pwd)  Attempting to launch faketravis.sh"
+    ./devbox.sh
     ./faketravis.sh
   SHELL
 end
