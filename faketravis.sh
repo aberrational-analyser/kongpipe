@@ -28,6 +28,9 @@ sudo systemctl start docker
 sudo yum install -y gcc
 sudo yum install -y patch
 
+#install wget
+sudo yum install -y wget
+
 # install nginx with PCRE library I think....
 
 
@@ -51,6 +54,14 @@ export CASSANDRA=3.9
 export TEST_SUITE=integration
 #export TEST_SUITE=plugins
 #export TEST_SUITE=pdk
+
+echo --------------------
+echo
+echo   starting setup_env.sh
+echo
+echo --------------------
+
+source .ci/setup_env.sh
 
 #install make dev :(
 

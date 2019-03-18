@@ -64,11 +64,12 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    yum install git -y
+    set +x
+    sudo yum install git -y
     git clone https://github.com/aberrational-analyser/kongpipe
     echo "Git clone completed.  Attempting cd"
-    cd /home/vagrant/kongpipe
-    ./devbox.sh
-    ./faketravis.sh
+    cd ~/kongpipe
+    source ./devbox.sh
+    source ./faketravis.sh
   SHELL
 end
