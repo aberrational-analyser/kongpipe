@@ -4,42 +4,49 @@
 # setup the prerequisites that are normally handled by travis.ci so that we
 # can run tests locally with a debugger...
 #
-
-#---------
-# pull down the repo and unzip.
-#
+function niceecho () {
+	echo ---------------------------------------
+	echo
+	echo "$1"
+	echo
+	echo ---------------------------------------
+}
+ 
+niceecho "clone the kong repo"
 sudo yum install git -y
 git clone https://github.com/Kong/kong.git
 cd kong
 
-#----------------------
-# install docker to support Cassandra:
-#----------------------
-
+niceecho "install docker to support Cassandra"
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager y\
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
 sudo yum install -y docker-ce docker-ce-cli containerd.io
+sudo groupadd docker
+sudo usermod -aG docker vagrant
 sudo systemctl start docker
+docker run hello-world
 
-#install gcc
+
+
+niceecho "install gcc and patch"
 sudo yum install -y gcc
 sudo yum install -y patch
 
-#install wget
+niceecho "install wget"
 sudo yum install -y wget
 
-# install nginx with PCRE library I think....
+niceecho "install OpenResty dependencies"
+sudo yum install -y pcre pcre-devel zlib zlib-devel unzip
 
-
-
-#---------
+echo ---------------------------------------
+echo Set travis.ci environment vars
+echo ---------------------------------------
 # Setup the environment vars normally provided by kong's travis.yml
 # We are selecting the cell from the test matrix that runs against cassandra 
 # 3.9...
-#--------
 export LUAROCKS=3.0.4
 export OPENSSL=1.1.1b
 export OPENRESTY_BASE=1.13.6.2
@@ -55,12 +62,12 @@ export TEST_SUITE=integration
 #export TEST_SUITE=plugins
 #export TEST_SUITE=pdk
 
-echo --------------------
-echo
-echo   starting setup_env.sh
-echo
-echo --------------------
 
+echo ----------------------------------------
+echo
+echo   sourcing kong/.ci/setup_env.sh
+echo
+echo ---------------------------------------
 source .ci/setup_env.sh
 
 #install make dev :(
