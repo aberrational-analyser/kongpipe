@@ -65,6 +65,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo yum install git -y
+    su vagrant -
     cd /vagrant
     source ./devbox.sh
     source ./faketravis.sh
